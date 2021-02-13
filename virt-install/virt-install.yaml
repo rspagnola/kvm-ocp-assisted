@@ -1,0 +1,42 @@
+---
+- hosts: all
+  gather_facts: False
+  become: True
+  user: root  
+  vars_prompt:
+    - name: vm_prefix
+      prompt: Enter the desired vm name prefix
+      private: no
+
+    - name: disk_path
+      prompt: Enter the storage path for VM disks (WARNING make sure this path has enough space)
+      default: /var/lib/libvirt/images
+      private: no
+
+    - name: discovery_path
+      prompt: Enter the path for the discovery ISO
+      default: /var/lib/libvirt/images
+      private: no
+
+  tasks:
+    - name: Deploy VMs
+      shell: >
+        virt-install 
+        --name "{{ item }}" 
+        --os-type=Linux 
+        --os-variant=rhel-unknown
+        --ram=16384
+        --vcpus=4
+        --disk '{{ disk_path }}/{{ item }}'.qcow2,bus=virtio,size=20 
+        --cdrom '{{ discovery_path }}/discovery_image_{{ vm_prefix }}.iso'
+        --network bridge:br-ext,model=virtio
+        --graphics none
+        --noautoconsole 
+        --autostart
+      loop: 
+         - '"{{ vm_prefix }}"-master-1'
+         - '"{{ vm_prefix }}"-master-2'
+         - '"{{ vm_prefix }}"-master-3'
+         - '"{{ vm_prefix }}"-worker-1'
+         - '"{{ vm_prefix }}"-worker-2'
+         - '"{{ vm_prefix }}"-worker-3' 
