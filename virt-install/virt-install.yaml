@@ -2,7 +2,9 @@
 - hosts: all
   gather_facts: False
   become: True
-  user: root  
+  user: root
+  vars_files:
+    - /vars/vm_vars.yaml
   vars_prompt:
     - name: vm_prefix
       prompt: Enter the desired vm name prefix
@@ -25,8 +27,8 @@
         --name "{{ item }}" 
         --os-type=Linux 
         --os-variant=rhel-unknown
-        --ram=16384
-        --vcpus=4
+        --ram "{{ ram }}"
+        --vcpus "{{ cpu }}"
         --disk '{{ disk_path }}/{{ item }}'.qcow2,bus=virtio,size=20 
         --cdrom '{{ discovery_path }}/discovery_image_{{ vm_prefix }}.iso'
         --network bridge:br-ext,model=virtio
