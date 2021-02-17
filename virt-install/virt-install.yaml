@@ -40,7 +40,6 @@
          - '{{ vm_prefix }}-master-2'
          - '{{ vm_prefix }}-master-3'
 
-
     - name: Deploy Worker VMs
       shell: >
         virt-install
