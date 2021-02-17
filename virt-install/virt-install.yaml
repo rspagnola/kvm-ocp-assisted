@@ -24,11 +24,11 @@
     - name: Deploy VMs
       shell: >
         virt-install 
-        --name "{{ item }}" 
+        --name '{{ item }}'
         --os-type=Linux 
         --os-variant=rhel-unknown
-        --ram "{{ ram }}"
-        --vcpus "{{ cpu }}"
+        --ram '{{ ram }}'
+        --vcpus '{{ cpu }}'
         --disk '{{ disk_path }}/{{ item }}'.qcow2,bus=virtio,size=20 
         --cdrom '{{ discovery_path }}/discovery_image_{{ vm_prefix }}.iso'
         --network bridge:br-ext,model=virtio
