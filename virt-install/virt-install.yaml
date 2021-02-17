@@ -21,14 +21,14 @@
       private: no
 
   tasks:
-    - name: Deploy VMs
+    - name: Deploy Master VMs
       shell: >
         virt-install 
         --name '{{ item }}'
         --os-type=Linux 
         --os-variant=rhel-unknown
-        --ram '{{ ram }}'
-        --vcpus '{{ cpu }}'
+        --ram '{{ master_ram }}'
+        --vcpus '{{ master_cpu }}'
         --disk '{{ disk_path }}/{{ item }}'.qcow2,bus=virtio,size=120 
         --cdrom '{{ discovery_path }}/discovery_image_{{ vm_prefix }}.iso'
         --network bridge:br-ext,model=virtio
@@ -36,9 +36,25 @@
         --noautoconsole 
         --autostart
       loop: 
-         - '"{{ vm_prefix }}"-master-1'
-         - '"{{ vm_prefix }}"-master-2'
-         - '"{{ vm_prefix }}"-master-3'
-         - '"{{ vm_prefix }}"-worker-1'
-         - '"{{ vm_prefix }}"-worker-2'
-         - '"{{ vm_prefix }}"-worker-3' 
+         - '{{ vm_prefix }}-master-1'
+         - '{{ vm_prefix }}-master-2'
+         - '{{ vm_prefix }}-master-3'
+   
+    - name: Deploy Worker VMs
+      shell: >
+        virt-install 
+        --name '{{ item }}'
+        --os-type=Linux 
+        --os-variant=rhel-unknown
+        --ram '{{ worker_ram }}'
+        --vcpus '{{ worker_cpu }}'
+        --disk '{{ disk_path }}/{{ item }}'.qcow2,bus=virtio,size=120 
+        --cdrom '{{ discovery_path }}/discovery_image_{{ vm_prefix }}.iso'
+        --network bridge:br-ext,model=virtio
+        --graphics none
+        --noautoconsole 
+        --autostart
+      loop:
+         - '{{ vm_prefix }}-worker-1'
+         - '{{ vm_prefix }}-worker-2'
+         - '{{ vm_prefix }}-worker-3' 
