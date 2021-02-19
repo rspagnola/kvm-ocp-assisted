@@ -7,7 +7,7 @@
     - ./vars/vm_vars.yaml
   vars_prompt:
     - name: vm_prefix
-      prompt: Enter the desired vm name prefix
+      prompt: Enter the desired vm name prefix (cluster name)
       private: no
 
     - name: disk_path
