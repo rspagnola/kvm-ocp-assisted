@@ -3,5 +3,5 @@ master_cpu: 4       #Minimum Recommended [4]
 master_ram: 16384    #Minimum Recommended [16384]
 
 # Worker VM RAM and CPU Values
-worker_cpu: 4       #Minimum REcommended [2]
+worker_cpu: 2       #Minimum REcommended [2]
 worker_ram: 8192    #Minimum Recommended [8192]
